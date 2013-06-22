@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+
+<?php
+
+/* Caculate average of command line arguments */
+
+$nums = $argv;
+unset($nums[0]);
+
+if (count($nums) == 0) {
+    return;
+}
+
+$sum = 0;
+foreach ($nums as $num) {
+    $sum += $num;
+}
+echo $sum / count($nums);
+echo "\n";
