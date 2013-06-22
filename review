@@ -14,5 +14,5 @@ $staff6 = '';
 $reviewers = array($staff1, $staff2, $staff3, $staff4, $staff5, $staff6);
 
 $case = $argv[1];
-$reviewer = $case % count($reviewers);
-echo "reviwer: $reviewers[$reviewer]\n\n";
+$number = $case % count($reviewers);
+echo "reviwer: $reviewers[$number]\n\n";
