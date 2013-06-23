@@ -1,4 +1,2 @@
-bin
-===
 
-My ~/bin folder
+My ~/bin folder.
