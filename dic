@@ -1,0 +1,54 @@
+#!/usr/bin/env php
+
+<?php
+
+/* English-Chinese dictionary cli */
+
+require('vendor/autoload.php');
+
+use Symfony\Component\DomCrawler\Crawler;
+
+
+$url = "http://tw.dictionary.yahoo.com/dictionary?p={$argv[1]}";
+$html = file_get_contents($url);
+
+$crawler = new Crawler();
+$crawler->addHTMLContent($html, 'UTF-8');
+
+// Retrive the word definition part of html
+$crawler = $crawler->filter('ul.explanation_wrapper')->eq(0);
+
+$crawler->filter('li.explanation_pos_wrapper')->each(function ($node, $i) {
+
+    // Word type, like noun, vt, vi
+    $type = text($node->filter('span.pos_abbr'));
+    $typeDesc = text($node->filter('span.pos_desc'));
+    echo "$type $typeDesc:\n\n";
+
+    $node->filter('ol.explanation_ol li')->each(function ($definition, $i) {
+        // Show definition
+        echo "    " . $definition->filter('.explanation')->text();
+
+        // Show sample sentence
+        $sample = text($definition->filter('.sample'));
+        if ($sample != '') {
+            echo "\n";
+            echo "    " . $sample;
+        }
+        echo "\n\n";
+    });
+    echo "\n";
+});
+
+/**
+ * Return text value of crawler object
+ */
+function text($node)
+{
+    $ret = '';
+    if (count($node) != 0) {
+        $ret = $node->text();
+    }
+
+    return $ret;
+}
