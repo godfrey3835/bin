@@ -1,4 +1,4 @@
 bin
 ===
 
-My bin directory
+My ~/bin folder
